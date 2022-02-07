@@ -1,18 +1,17 @@
-use std::borrow::Borrow;
-use crate::api::files::FileConfig;
+use crate::api::files::Files;
 
 pub struct ConfigApi {
     started_daily: bool,
-    devs: Vec::<String>,
+    file_config: Files,
 }
 
 impl ConfigApi {
 
     pub fn new() -> Self {
-        let file_config = FileConfig::new();
+        let file_config = Files::new();
         ConfigApi {
             started_daily: false,
-            devs: file_config.get_devs().to_vec(),
+            file_config,
         }
     }
 
@@ -25,7 +24,15 @@ impl ConfigApi {
     }
 
     pub fn get_devs(&self) -> &Vec::<String> {
-        return &self.devs;
+        return &self.file_config.get_devs();
+    }
+
+    pub fn add_dev(&mut self, name: &str) {
+        self.file_config.add_dev(name);
+    }
+
+    pub fn delete_dev(&mut self, index: usize) {
+        self.file_config.delete_dev(index);
     }
 }
 

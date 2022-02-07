@@ -2,7 +2,7 @@ extern crate core;
 
 use cursive::{Cursive, CursiveRunnable};
 use cursive::theme::{Color, ColorStyle};
-use cursive::views::{Button, Dialog, DummyView, EditView, LinearLayout, ListView, NamedView, OnEventView, SelectView, TextView, ViewRef};
+use cursive::views::{Dialog, DummyView, EditView, LinearLayout, ListView, NamedView, SelectView, TextView};
 use cursive::traits::*;
 use crate::ui::config::ConfigApi;
 
@@ -47,6 +47,9 @@ fn show_add_modal(s: &mut Cursive) {
     fn ok(s: &mut Cursive, name: &str) {
         s.call_on_name("developers_list", |view: &mut SelectView| {
             view.add_item_str(name)
+        });
+        s.with_user_data(|data: &mut ConfigApi| {
+            data.add_dev(name);
         });
         s.pop_layer();
     }
@@ -108,9 +111,9 @@ fn delete_developer(s: &mut Cursive) {
         None => (),
         Some(focus) => {
             select.remove_item(focus);
-            // s.with_user_data(|data: &mut ConfigApi| {
-            //
-            // })
+            s.with_user_data(|data: &mut ConfigApi| {
+                data.delete_dev(focus)
+            });
         }
     }
 }
