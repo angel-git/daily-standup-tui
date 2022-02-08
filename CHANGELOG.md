@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [v0.0.1](https://github.com/angel-git/daily-standup-tui/releases/tag/v0.0.1) - 2022-02-08 21:51:56
+## [v0.0.1](https://github.com/angel-git/daily-standup-tui/releases/tag/v0.0.1) - 2022-02-08 22:06:18
 
 *No description*
 
