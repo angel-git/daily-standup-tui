@@ -85,6 +85,7 @@ fn start_daily(s: &mut Cursive) {
     s.clear_global_callbacks('d');
     s.clear_global_callbacks('s');
     s.add_global_callback('n', next);
+    s.add_global_callback('N', skip);
     s.with_user_data(|data: &mut ConfigApi| {
         data.start();
     });
@@ -116,6 +117,13 @@ fn print_next_dev(s: &mut Cursive) {
 fn next(s: &mut Cursive) {
     s.with_user_data(|data: &mut ConfigApi| {
         data.next();
+    });
+    print_next_dev(s);
+}
+
+fn skip(s: &mut Cursive) {
+    s.with_user_data(|data: &mut ConfigApi| {
+        data.skip();
     });
     print_next_dev(s);
 }
