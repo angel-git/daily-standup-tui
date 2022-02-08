@@ -57,6 +57,11 @@ impl ConfigApi {
     pub fn next(&mut self) {
         self.devs_turn.remove(0);
     }
+
+    pub fn skip(&mut self) {
+        let current_dev_turn = self.devs_turn.remove(0);
+        self.devs_turn.push(current_dev_turn);
+    }
 }
 
 impl Default for ConfigApi {
