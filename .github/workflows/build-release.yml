@@ -20,7 +20,7 @@ jobs:
             archive: zip
     steps:
       - name: Install ncurses
-        run: sudo apt-get install -y libncurses5-dev
+        run: sudo apt-get install -y libncurses5 libncurses5-dev
       - uses: actions/checkout@master
       - name: Compile and release
         uses: rust-build/rust-build.action@6694d4a74d687379a2e9780def73228afa87dae8
