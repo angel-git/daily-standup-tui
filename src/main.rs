@@ -1,7 +1,6 @@
 extern crate core;
 
 use cursive::{Cursive, CursiveRunnable};
-use cursive::theme::{Color, ColorStyle, PaletteColor};
 use cursive::views::{Dialog, DummyView, EditView, LinearLayout, NamedView, SelectView, TextView};
 use cursive::traits::*;
 use crate::ui::config::ConfigApi;
@@ -16,7 +15,7 @@ fn main() {
     let status_bar = LinearLayout::horizontal()
         .child(TextView::new("[s] Start "))
         .child(TextView::new("[i] Insert dev "))
-        .child(TextView::new("[d] Delete dev").style(ColorStyle::new(Color::Rgb(200, 10, 10), PaletteColor::Background)))
+        .child(TextView::new("[d] Delete dev"))
         .child(TextView::new(" [q] Quit "))
         .with_name("status_bar")
         .full_width();
