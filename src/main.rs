@@ -2,7 +2,7 @@ extern crate core;
 
 use cursive::{Cursive, CursiveRunnable};
 use cursive::theme::{Color, ColorStyle};
-use cursive::views::{Dialog, DummyView, EditView, LinearLayout, ListView, NamedView, SelectView, TextView};
+use cursive::views::{Dialog, EditView, LinearLayout, NamedView, SelectView, TextView};
 use cursive::traits::*;
 use crate::ui::config::ConfigApi;
 
@@ -23,7 +23,7 @@ fn main() {
 
     let main_layout = LinearLayout::horizontal()
         .child(add_developers_view(&mut siv))
-        .child(ListView::new().child("t1", DummyView))
+        .with_name("main")
         .full_height();
 
     siv.add_global_callback('q', Cursive::quit);
@@ -83,18 +83,41 @@ fn show_add_modal(s: &mut Cursive) {
 fn start_daily(s: &mut Cursive) {
     s.clear_global_callbacks('i');
     s.clear_global_callbacks('d');
+    s.clear_global_callbacks('s');
+    s.add_global_callback('n', next);
     s.with_user_data(|data: &mut ConfigApi| {
-        data.start()
+        data.start();
     });
     s.call_on_name("status_bar", |view: &mut LinearLayout| {
         view.clear();
         view.add_child(TextView::new("[n] Next "));
         view.add_child(TextView::new("[N] Skip "));
-        view.add_child(TextView::new("[m] Out "));
         view.add_child(TextView::new("[q] Quit "));
     });
+    print_next_dev(s);
+}
 
-    return;
+fn print_next_dev(s: &mut Cursive) {
+    let mut view = s.find_name::<LinearLayout>("main").unwrap();
+    match s.user_data::<ConfigApi>().unwrap().get_turns().get(0) {
+        Some(dev) => {
+            view.clear();
+            view.add_child(TextView::new(dev))
+        }
+        None => {
+            s.clear_global_callbacks('n');
+            s.clear_global_callbacks('N');
+            view.clear();
+            view.add_child(TextView::new("DONE! Press [q] to quit"));
+        },
+    };
+}
+
+fn next(s: &mut Cursive) {
+    s.with_user_data(|data: &mut ConfigApi| {
+        data.next();
+    });
+    print_next_dev(s);
 }
 
 fn add_developers_view(s: &mut CursiveRunnable) -> NamedView<SelectView> {

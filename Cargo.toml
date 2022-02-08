@@ -9,6 +9,7 @@ edition = "2021"
 cursive = "0.17.0"
 toml = "0.5.8"
 dirs = "4.0.0"
+rand = "0.8.4"
 
 
 [dependencies.serde]
