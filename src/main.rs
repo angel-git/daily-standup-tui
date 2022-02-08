@@ -54,8 +54,6 @@ fn show_add_modal(s: &mut Cursive) {
         s.pop_layer();
     }
 
-    // let data = s.user_data::<ConfigApi>().expect("data should be here!");
-    // if !data.is_started() {
     s.add_layer(Dialog::around(EditView::new()
         .on_submit(ok)
         .with_name("name")
@@ -71,14 +69,7 @@ fn show_add_modal(s: &mut Cursive) {
         .button("Cancel", |s| {
             s.pop_layer();
         }));
-    // }
 }
-//
-// fn do_nothing(s: &mut Cursive) {}
-//
-// fn if_not_started_then(f: fn(&mut Cursive) -> ()) -> fn(s: &mut Cursive) -> () {
-//     return f;
-// }
 
 fn start_daily(s: &mut Cursive) {
     s.clear_global_callbacks('i');
