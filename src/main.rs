@@ -1,8 +1,8 @@
 extern crate core;
 
 use cursive::{Cursive, CursiveRunnable};
-use cursive::theme::{Color, ColorStyle};
-use cursive::views::{Dialog, EditView, LinearLayout, NamedView, SelectView, TextView};
+use cursive::theme::{Color, ColorStyle, PaletteColor};
+use cursive::views::{Dialog, DummyView, EditView, LinearLayout, NamedView, SelectView, TextView};
 use cursive::traits::*;
 use crate::ui::config::ConfigApi;
 
@@ -16,7 +16,7 @@ fn main() {
     let status_bar = LinearLayout::horizontal()
         .child(TextView::new("[s] Start "))
         .child(TextView::new("[i] Insert dev "))
-        .child(TextView::new("[d] Delete dev").style(ColorStyle::new(Color::Rgb(200, 10, 10), Color::TerminalDefault)))
+        .child(TextView::new("[d] Delete dev").style(ColorStyle::new(Color::Rgb(200, 10, 10), PaletteColor::Background)))
         .child(TextView::new(" [q] Quit "))
         .with_name("status_bar")
         .full_width();
@@ -98,11 +98,12 @@ fn print_next_dev(s: &mut Cursive) {
         s.clear_global_callbacks('n');
         s.clear_global_callbacks('N');
         view.add_child(TextView::new("DONE! Press [q] to quit"));
-    } else if dev_turns.len() == 1 {
-        view.add_child(TextView::new(format!("SPEAKING: {}", dev_turns.get(0).unwrap())));
     } else {
-        view.add_child(TextView::new(format!("SPEAKING: {}", dev_turns.get(0).unwrap())));
-        view.add_child(TextView::new(format!("NEXT: {}", dev_turns.get(1).unwrap())));
+        view.add_child(TextView::new(format!("😎 SPEAKING: {}", dev_turns.get(0).unwrap())));
+        if dev_turns.len() > 1 {
+            view.add_child(DummyView);
+            view.add_child(TextView::new(format!("😧 NEXT: {}", dev_turns.get(1).unwrap())));
+        }
     };
 }
 
