@@ -21,7 +21,7 @@ fn main() {
         .with_name("status_bar")
         .full_width();
 
-    let main_layout = LinearLayout::horizontal()
+    let main_layout = LinearLayout::vertical()
         .child(add_developers_view(&mut siv))
         .with_name("main")
         .full_height();
@@ -100,17 +100,18 @@ fn start_daily(s: &mut Cursive) {
 
 fn print_next_dev(s: &mut Cursive) {
     let mut view = s.find_name::<LinearLayout>("main").unwrap();
-    match s.user_data::<ConfigApi>().unwrap().get_turns().get(0) {
-        Some(dev) => {
-            view.clear();
-            view.add_child(TextView::new(dev))
-        }
-        None => {
-            s.clear_global_callbacks('n');
-            s.clear_global_callbacks('N');
-            view.clear();
-            view.add_child(TextView::new("DONE! Press [q] to quit"));
-        },
+    let dev_turns = s.user_data::<ConfigApi>().unwrap().get_turns();
+    view.clear();
+
+    if dev_turns.len() == 0 {
+        s.clear_global_callbacks('n');
+        s.clear_global_callbacks('N');
+        view.add_child(TextView::new("DONE! Press [q] to quit"));
+    } else if dev_turns.len() == 1 {
+        view.add_child(TextView::new(format!("SPEAKING: {}", dev_turns.get(0).unwrap())));
+    } else {
+        view.add_child(TextView::new(format!("SPEAKING: {}", dev_turns.get(0).unwrap())));
+        view.add_child(TextView::new(format!("NEXT: {}", dev_turns.get(1).unwrap())));
     };
 }
 
