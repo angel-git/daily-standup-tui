@@ -129,14 +129,29 @@ fn add_developers_view(s: &mut CursiveRunnable) -> NamedView<SelectView> {
 }
 
 fn delete_developer(s: &mut Cursive) {
-    let mut select = s.find_name::<SelectView<String>>("developers_list").unwrap();
-    match select.selected_id() {
-        None => (),
-        Some(focus) => {
-            select.remove_item(focus);
-            s.with_user_data(|data: &mut ConfigApi| {
-                data.delete_dev(focus)
-            });
+    fn ok(s: &mut Cursive) {
+        let mut select = s.find_name::<SelectView<String>>("developers_list").unwrap();
+        match select.selected_id() {
+            None => (),
+            Some(focus) => {
+                select.remove_item(focus);
+                s.with_user_data(|data: &mut ConfigApi| {
+                    data.delete_dev(focus)
+                });
+            }
         }
+        s.pop_layer();
     }
+
+    let select = s.find_name::<SelectView<String>>("developers_list").unwrap();
+    let selected_dev = select.get_item(select.selected_id().unwrap()).unwrap();
+
+    s.add_layer(Dialog::around(TextView::new(format!("You will delete {}", selected_dev.0)))
+        .title("Delete dev")
+        .button("Remove", |s| {
+            ok(s);
+        })
+        .button("Cancel", |s| {
+            s.pop_layer();
+        }));
 }
