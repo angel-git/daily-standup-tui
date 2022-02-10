@@ -15,10 +15,10 @@ The application stores its configuration under your `home_folder/.daily-standup-
 
 - Add/Delete developers for daily
 - Skip/Finish turn
+- Confirm action when removing developer from the list
 
 ## Planned features
 
-- Confirm action when removing developer from the list
 - Configurable countdown timer
 
 ## Maybe in the future
