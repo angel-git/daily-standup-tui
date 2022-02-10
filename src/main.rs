@@ -35,8 +35,8 @@ fn main() {
                 .child(main_layout)
                 .child(status_bar),
         )
-            .title("stand-up")
-            .full_screen(),
+        .title("stand-up")
+        .full_screen(),
     );
     siv.run();
 }
@@ -59,16 +59,16 @@ fn show_add_modal(s: &mut Cursive) {
                 .with_name("name")
                 .fixed_width(10),
         )
-            .title("Enter the name")
-            .button("Ok", |s| {
-                let name = s
-                    .call_on_name("name", |view: &mut EditView| view.get_content())
-                    .unwrap();
-                ok(s, &name);
-            })
-            .button("Cancel", |s| {
-                s.pop_layer();
-            }),
+        .title("Enter the name")
+        .button("Ok", |s| {
+            let name = s
+                .call_on_name("name", |view: &mut EditView| view.get_content())
+                .unwrap();
+            ok(s, &name);
+        })
+        .button("Cancel", |s| {
+            s.pop_layer();
+        }),
     );
 }
 
