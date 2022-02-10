@@ -1,9 +1,9 @@
 extern crate core;
 
-use cursive::{Cursive, CursiveRunnable};
-use cursive::views::{Dialog, DummyView, EditView, LinearLayout, NamedView, SelectView, TextView};
-use cursive::traits::*;
 use crate::ui::config::ConfigApi;
+use cursive::traits::*;
+use cursive::views::{Dialog, DummyView, EditView, LinearLayout, NamedView, SelectView, TextView};
+use cursive::{Cursive, CursiveRunnable};
 
 pub mod api;
 pub mod ui;
@@ -33,14 +33,13 @@ fn main() {
         Dialog::around(
             LinearLayout::vertical()
                 .child(main_layout)
-                .child(status_bar)
+                .child(status_bar),
         )
             .title("stand-up")
-            .full_screen()
+            .full_screen(),
     );
     siv.run();
 }
-
 
 fn show_add_modal(s: &mut Cursive) {
     fn ok(s: &mut Cursive, name: &str) {
@@ -53,21 +52,24 @@ fn show_add_modal(s: &mut Cursive) {
         s.pop_layer();
     }
 
-    s.add_layer(Dialog::around(EditView::new()
-        .on_submit(ok)
-        .with_name("name")
-        .fixed_width(10))
-        .title("Enter the name")
-        .button("Ok", |s| {
-            let name =
-                s.call_on_name("name", |view: &mut EditView| {
-                    view.get_content()
-                }).unwrap();
-            ok(s, &name);
-        })
-        .button("Cancel", |s| {
-            s.pop_layer();
-        }));
+    s.add_layer(
+        Dialog::around(
+            EditView::new()
+                .on_submit(ok)
+                .with_name("name")
+                .fixed_width(10),
+        )
+            .title("Enter the name")
+            .button("Ok", |s| {
+                let name = s
+                    .call_on_name("name", |view: &mut EditView| view.get_content())
+                    .unwrap();
+                ok(s, &name);
+            })
+            .button("Cancel", |s| {
+                s.pop_layer();
+            }),
+    );
 }
 
 fn start_daily(s: &mut Cursive) {
@@ -98,10 +100,16 @@ fn print_next_dev(s: &mut Cursive) {
         s.clear_global_callbacks('N');
         view.add_child(TextView::new("DONE! Press [q] to quit"));
     } else {
-        view.add_child(TextView::new(format!("😎 SPEAKING: {}", dev_turns.get(0).unwrap())));
+        view.add_child(TextView::new(format!(
+            "😎 SPEAKING: {}",
+            dev_turns.get(0).unwrap()
+        )));
         if dev_turns.len() > 1 {
             view.add_child(DummyView);
-            view.add_child(TextView::new(format!("😧 NEXT: {}", dev_turns.get(1).unwrap())));
+            view.add_child(TextView::new(format!(
+                "😧 NEXT: {}",
+                dev_turns.get(1).unwrap()
+            )));
         }
     };
 }
@@ -122,36 +130,38 @@ fn skip(s: &mut Cursive) {
 
 fn add_developers_view(s: &mut CursiveRunnable) -> NamedView<SelectView> {
     let mut developers_list = SelectView::new();
-    s.with_user_data(|data: &mut ConfigApi| {
-        developers_list.add_all_str(data.get_devs())
-    });
+    s.with_user_data(|data: &mut ConfigApi| developers_list.add_all_str(data.get_devs()));
     return developers_list.with_name("developers_list");
 }
 
 fn delete_developer(s: &mut Cursive) {
     fn ok(s: &mut Cursive) {
-        let mut select = s.find_name::<SelectView<String>>("developers_list").unwrap();
+        let mut select = s
+            .find_name::<SelectView<String>>("developers_list")
+            .unwrap();
         match select.selected_id() {
             None => (),
             Some(focus) => {
                 select.remove_item(focus);
-                s.with_user_data(|data: &mut ConfigApi| {
-                    data.delete_dev(focus)
-                });
+                s.with_user_data(|data: &mut ConfigApi| data.delete_dev(focus));
             }
         }
         s.pop_layer();
     }
 
-    let select = s.find_name::<SelectView<String>>("developers_list").unwrap();
+    let select = s
+        .find_name::<SelectView<String>>("developers_list")
+        .unwrap();
     let selected_dev = select.get_item(select.selected_id().unwrap()).unwrap();
 
-    s.add_layer(Dialog::around(TextView::new(format!("You will delete {}", selected_dev.0)))
-        .title("Delete dev")
-        .button("Remove", |s| {
-            ok(s);
-        })
-        .button("Cancel", |s| {
-            s.pop_layer();
-        }));
+    s.add_layer(
+        Dialog::around(TextView::new(format!("You will delete {}", selected_dev.0)))
+            .title("Delete dev")
+            .button("Remove", |s| {
+                ok(s);
+            })
+            .button("Cancel", |s| {
+                s.pop_layer();
+            }),
+    );
 }

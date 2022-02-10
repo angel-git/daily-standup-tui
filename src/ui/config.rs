@@ -6,11 +6,10 @@ use crate::api::files::Files;
 pub struct ConfigApi {
     started_daily: bool,
     file_config: Files,
-    devs_turn: Vec::<String>
+    devs_turn: Vec<String>,
 }
 
 impl ConfigApi {
-
     pub fn new() -> Self {
         let file_config = Files::new();
         ConfigApi {
@@ -28,11 +27,11 @@ impl ConfigApi {
         self.started_daily = true;
     }
 
-    pub fn is_started(&self) -> &bool  {
+    pub fn is_started(&self) -> &bool {
         return &self.started_daily;
     }
 
-    pub fn get_devs(&self) -> &Vec::<String> {
+    pub fn get_devs(&self) -> &Vec<String> {
         return &self.file_config.get_devs();
     }
 
@@ -50,7 +49,7 @@ impl ConfigApi {
         self.file_config.delete_dev(index);
     }
 
-    pub fn get_turns(&self) -> &Vec::<String> {
+    pub fn get_turns(&self) -> &Vec<String> {
         return &self.devs_turn;
     }
 
