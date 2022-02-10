@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [v0.0.2](https://github.com/angel-git/daily-standup-tui/releases/tag/v0.0.2) - 2022-02-08 23:10:47
+
+*No description*
+
+### Bug Fixes
+
+- UI:
+  - Remove style from delete user text ([4d241db](https://github.com/angel-git/daily-standup-tui/commit/4d241dbaa068d531bbdc95f4f4539d867cf9102c))
+
 ## [v0.0.1](https://github.com/angel-git/daily-standup-tui/releases/tag/v0.0.1) - 2022-02-08 22:06:18
 
 *No description*
