@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [v0.0.3](https://github.com/angel-git/daily-standup-tui/releases/tag/v0.0.3) - 2022-02-10 22:00:27
+
+*No description*
+
+### Feature
+
+- UI:
+  - Add confirm dialog before deleting ([17b93dc](https://github.com/angel-git/daily-standup-tui/commit/17b93dcbc823f718c6d9157a9a0be4ee03dd98ca))
+
 ## [v0.0.2](https://github.com/angel-git/daily-standup-tui/releases/tag/v0.0.2) - 2022-02-08 23:10:47
 
 *No description*
